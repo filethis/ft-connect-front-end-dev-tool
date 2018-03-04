@@ -1,0 +1,221 @@
+<!--
+Copyright 2017 FileThis, Inc.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+
+<link rel="import" href="../bower_components/app-storage/app-localstorage/app-localstorage-document.html">
+<link rel="import" href="../bower_components/ft-accordion-item/ft-accordion-item.html">
+<link rel="import" href="../bower_components/ft-labeled-icon-button/ft-labeled-icon-button.html">
+<link rel="import" href="../bower_components/ft-test-account-manager/ft-test-account-manager.html">
+<link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
+<link rel="import" href="../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../bower_components/paper-tabs/paper-tabs.html">
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="style-panel.html">
+<link rel="import" href="inspect-panel.html">
+<!--<link rel="import" href="start-panel.html">-->
+
+
+<dom-module id="manager-panel">
+
+    <template>
+
+        <style include="iron-flex iron-flex-alignment iron-positioning"></style>
+
+        <style>
+            :host {
+                display:block;
+                overflow:hidden;
+                @apply --layout-vertical;
+            }
+        </style>
+
+        <style>
+            #managerPanelTabs
+            {
+                --paper-tabs-selection-bar-color:blue;
+            }
+            .verticalText
+            {
+                display:block;
+                -webkit-transform: rotate(-90deg);
+                -moz-transform: rotate(-90deg);
+                -ms-transform: rotate(-90deg);
+                -o-transform: rotate(-90deg);
+            }
+        </style>
+
+        <app-localstorage-document key="managerIsOpen" data="{{_managerIsOpen}}">
+        </app-localstorage-document>
+
+        <ft-accordion-item
+            heading="Fixture"
+            is-open="{{_managerIsOpen}}"
+            class="flex"
+        >
+
+            <!-- Test account manager panel -->
+            <ft-test-account-manager
+                    id="testAccountManager"
+                    slot="content"
+                    name="token"
+                    live="{{live}}"
+                    can-go-live="{{canGoLive}}"
+                    server="{{server}}"
+                    show-server="true"
+                    api-path="{{apiPath}}"
+                    user-account-id="{{userAccountId}}"
+                    token="{{token}}">
+            </ft-test-account-manager>
+
+        </ft-accordion-item>
+
+    </template>
+
+    <script>
+        Polymer({
+
+            is: 'manager-panel',
+
+            properties:
+            {
+                /** Whether the FileThis Connect instance is live or not */
+                live:
+                {
+                    type: Object,
+                    notify: true,
+                    value: false
+                },
+
+                /** Whether the FileThis Connect instance can be live or not */
+                canGoLive:
+                {
+                    type: Object,
+                    notify: true,
+                    value: false
+                },
+
+                /** The "base" URL for requests. For example: "https://filethis.com". Note that you should not use a trailing slash. */
+                server:
+                {
+                    type: String,
+                    notify: true,
+                    value: "https://filethis.com"
+                },
+
+                /** The path under the baseUrl used for API requests. For example: "/api/v1". Note that you should use a leading slash, and no trailing slash. */
+                apiPath:
+                {
+                    type: String,
+                    value: "/api/v1"
+                },
+
+                /** The user's FileThis account id. */
+                userAccountId: {
+                    type: String,
+                    notify: true,
+                    value: ""
+                },
+
+                /** The end-user FileThis token. Used to authenticate and authorize requests to the FileThis API endpoints. */
+                token:
+                {
+                    type: String,
+                    notify: true,
+                    value: ""
+                },
+
+                componentName:
+                {
+                    type: String,
+                    notify: true,
+                    value: null
+                },
+
+                _selectedManagerPanelTabName:
+                {
+                    type: String,
+                    value: "token"
+                },
+
+                _managerIsOpen:
+                {
+                    type: Boolean,
+                    value: true,
+                },
+            },
+
+            _defaultPanelName: "token",  // Make sure this panel really exists
+            
+            
+            // Startup -------------------------------------------------------------------------------------
+
+            ready: function()
+            {
+                this.async(function()
+                {
+                    // We have to be careful here to make sure that removed panels whose names have been stored
+                    // by a client get mapped to an actual panel.
+                    var panelName = this._readFromLocalStorage(this.localName + "selectedManagerPanelTabName", this._defaultPanelName);
+                    if (!this._isValidPanelName(panelName))
+                        panelName = this._defaultPanelName;
+
+                    this._selectedManagerPanelTabName = panelName;
+                });
+            },
+
+            // User action event handling --------------------------------------------------------------------------
+
+            _onPanelSelected: function()
+            {
+                localStorage.setItem(this.localName + "selectedManagerPanelTabName", this._selectedManagerPanelTabName);
+            },
+
+            _isValidPanelName: function(panelName)
+            {
+                switch (panelName)
+                {
+                    case "token":
+                        return true;
+                }
+                return false;
+            },
+
+
+            // Local storage ----------------------------------------------------------------------------
+
+            _readFromLocalStorage: function(name, defaultValue)
+            {
+                var value = localStorage.getItem(name);
+                if (value === null)
+                    value = defaultValue;
+                return value;
+            },
+
+            _readFromLocalStorageBoolean: function(name, defaultValue)
+            {
+                var value = localStorage.getItem(name);
+                if (value === null)
+                    value = defaultValue;
+                return JSON.parse(value);
+            }
+
+        })
+
+    </script>
+</dom-module>

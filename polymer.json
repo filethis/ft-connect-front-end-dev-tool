@@ -1,0 +1,43 @@
+{
+  "entrypoint": "index.html",
+  "shell": "src/ft-connect-front-end-dev-tool.html",
+  "fragments": [
+  ],
+  "sources": [
+    "src/**/*",
+    "robots.txt"
+  ],
+  "extraDependencies": [
+    "manifest.json"
+  ],
+  "lint": {
+    "rules": [
+      "polymer-2-hybrid"
+    ],
+    "ignoreWarnings": [
+      "multiple-doc-comments"
+    ]
+  },
+  "builds": [
+    {
+      "name": "app",
+      "bundle": true,
+      "js": {
+        "minify": true,
+        "compile": true
+      },
+      "css": {
+        "minify": true
+      },
+      "html": {
+        "minify":                 false
+      },
+      "excludes": [
+        "/data/"
+      ],
+      "stripComments": "true",
+      "addPushManifest": true,
+      "insertPrefetchLinks": true
+    }
+  ]
+}

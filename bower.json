@@ -1,0 +1,47 @@
+{
+  "name": "ft-connect-front-end-dev-tool",
+  "description": "A development tool to assist partners in developing a front-end to FileThis services.",
+  "main": "index.html",
+  "dependencies": {
+    "app-storage": "^2.0.2",
+    "app-route": "PolymerElements/app-route#1 - 2",
+    "ft-clipboard-behavior": "filethis/ft-clipboard-behavior#^0.0.6",
+    "ft-confirmation-dialog": "filethis/ft-confirmation-dialog#^0.0.20",
+    "ft-accordion-item": "filethis/ft-accordion-item#^0.0.8",
+    "ft-connect-expand-out": "filethis/ft-connect-expand-out#^0.0.26",
+    "ft-connect-tabbed": "filethis/ft-connect-tabbed#^0.0.20",
+    "ft-connect-wizard": "filethis/ft-connect-wizard#^0.0.11",
+    "ft-element-demo": "filethis/ft-element-demo#^0.0.11",
+    "ft-test-account-manager": "filethis/ft-test-account-manager#^0.0.21",
+    "ft-labeled-icon-button": "filethis/ft-labeled-icon-button#^0.0.17",
+    "ft-url-param-behavior": "filethis/ft-url-param-behavior#^0.0.6",
+    "iron-a11y-keys": "PolymerElements/iron-a11y-keys#1 - 2",
+    "iron-image": "PolymerElements/iron-image#1 - 2",
+    "iron-label": "PolymerElements/iron-label#1 - 2",
+    "iron-list": "PolymerElements/iron-list#1 - 2",
+    "iron-pages": "PolymerElements/iron-pages#1 - 2",
+    "log4javascript": "^1.4.9",
+    "marked-element": "PolymerElements/marked-element#1 - 2",
+    "neon-animation": "PolymerElements/neon-animation#1 - 2",
+    "paper-dialog": "PolymerElements/paper-dialog#1 - 2",
+    "paper-dropdown-menu": "PolymerElements/paper-dropdown-menu#1 - 2",
+    "paper-icon-button": "PolymerElements/paper-icon-button#1 - 2",
+    "paper-tabs": "PolymerElements/paper-tabs#1 - 2",
+    "paper-toolbar": "PolymerElements/paper-toolbar#1 - 2",
+    "paper-tooltip": "PolymerElements/paper-tooltip#1 - 2",
+    "polymer": "Polymer/polymer#1.9 - 2",
+    "validator-js": "^7.0.0"
+  },
+  "devDependencies": {
+    "iron-component-page": "PolymerElements/iron-component-page#1 - 2",
+    "iron-demo-helpers": "PolymerElements/iron-demo-helpers#1 - 2",
+    "iron-test-helpers": "PolymerElements/iron-test-helpers#1 - 2",
+    "web-component-tester": "Polymer/web-component-tester#^6.0.0",
+    "webcomponentsjs": "webcomponents/webcomponentsjs#^1.0.0"
+  },
+  "ignore": [],
+  "resolutions": {
+    "polymer": "1.9 - 2",
+    "webcomponentsjs": "^1.0.0"
+  }
+}
