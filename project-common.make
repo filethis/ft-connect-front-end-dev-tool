@@ -38,23 +38,20 @@ project-init-github:  ## Initialize GitHub project
 	git push -u origin master
 
 
+
 # Serve
 
 .PHONY: project-serve-polymer
-project-serve-polymer:  ## Serve project locally using the Polymer server
+project-serve-polymer:  ## Serve element demo locally using the Polymer server
 	@echo http:localhost:${LOCAL_PORT}; \
 	polymer serve --port ${LOCAL_PORT}
 
 .PHONY: serve
 serve: project-serve-polymer  ## Shortcut for project-serve-polymer
-	@echo Serving...;
+	@echo Done;
 
 
 # Browse
-
-.PHONY: project-browse
-project-browse:  ## Open locally-served app or element demo in browser
-	@open http:localhost:${LOCAL_PORT};
 
 .PHONY: browse
 browse: project-browse  ## Shortcut for project-browse

@@ -53,7 +53,6 @@ project-serve-node:  ## Serve application using Node "static-server" tool
 	@static-server --port ${LOCAL_PORT};
 
 .PHONY: project-serve-php
-project-serve-php:  ## Serve application using PHP
 	@echo http:localhost:${LOCAL_PORT}; \
 	@php -S 127.0.0.1:${LOCAL_PORT};
 
@@ -93,6 +92,13 @@ project-test-browsersync:  ## Run BrowserSync for tests
 		--port ${LOCAL_PORT} \
 		--startPath "/components/${NAME}/test/" \
 		--index "${NAME}_test.html";
+
+
+# Browse
+
+.PHONY: project-browse
+project-browse:  ## Open locally-served app in browser
+	@open http:localhost:${LOCAL_PORT};
 
 
 # Artifacts -----------------------------------------------------------------------------------
@@ -142,6 +148,10 @@ artifact-publish-app-github-pages: build-dist
 .PHONY: publish
 publish: artifact-publish-app  ## Shortcut for artifact-publish-app
 	@echo Published;
+
+.PHONY: invalidate
+invalidate: artifact-invalidate-app-latest  ## Shortcut for artifact-invalidate-app-latest
+	@echo Invalidated;
 
 
 # Publications -----------------------------------------------------------------------------------

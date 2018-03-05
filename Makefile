@@ -1,6 +1,6 @@
 # Project configuration
 NAME=ft-connect-front-end-dev-tool
-VERSION=0.0.33
+VERSION=0.0.34
 LOCAL_PORT=3456
 GITHUB_USER=filethis
 GITHUB_USER_ABBREV=ft
