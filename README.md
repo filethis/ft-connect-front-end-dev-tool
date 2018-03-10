@@ -1,4 +1,4 @@
-# \<ft-connect-front-end-dev-tool\>
+# \<ft-connect-front-end-sdk-tool\>
 
 This is a fixture that lets developers drive instances of the various FileThis Connect drop-in components, like [ft-connect-expand-out](https://github.com/filethis/ft-connect-expand-out) and [ft-connect-tabbed](https://github.com/filethis/ft-connect-tabbed).
 

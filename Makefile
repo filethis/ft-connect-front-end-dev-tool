@@ -1,5 +1,5 @@
 # Project configuration
-NAME=ft-connect-front-end-dev-tool
+NAME=ft-connect-front-end-sdk-tool
 VERSION=0.0.35
 LOCAL_PORT=3456
 GITHUB_USER=filethis

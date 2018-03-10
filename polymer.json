@@ -1,6 +1,6 @@
 {
   "entrypoint": "index.html",
-  "shell": "src/ft-connect-front-end-dev-tool.html",
+  "shell": "src/ft-connect-front-end-sdk-tool.html",
   "fragments": [
   ],
   "sources": [

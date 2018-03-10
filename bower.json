@@ -1,5 +1,5 @@
 {
-  "name": "ft-connect-front-end-dev-tool",
+  "name": "ft-connect-front-end-sdk-tool",
   "description": "A development tool to assist partners in developing a front-end to FileThis services.",
   "main": "index.html",
   "dependencies": {
