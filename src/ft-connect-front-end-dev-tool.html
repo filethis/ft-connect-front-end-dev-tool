@@ -284,6 +284,8 @@ A development tool to assist partners in developing a front-end to FileThis serv
                                     debug="true"
                                     fake-sources="true"
                                     on-ft-connect-error="_handleFileThisConnectErrorEvent"
+                                    on-wizard-canceled-command="_handleWizardCanceledCommand"
+                                    on-wizard-done-command="_handleWizardDoneCommand"
                                 >
                                 </ft-connect-wizard>
                             </ft-element-demo>
@@ -689,6 +691,16 @@ A development tool to assist partners in developing a front-end to FileThis serv
                 }
 
                 this.handleCaughtError(error);
+            },
+
+            _handleWizardCanceledCommand: function()
+            {
+                this.$.confirmationDialog.alert("When the user clicks the \"Cancel\" button, your \"wizard-canceled-command\" event handler should do the appropriate thing in your workflow.");
+            },
+
+            _handleWizardDoneCommand: function()
+            {
+                this.$.confirmationDialog.alert("When the user clicks the \"Done\" button, your \"wizard-done-command\" event handler should do the appropriate thing in your workflow.");
             },
 
 

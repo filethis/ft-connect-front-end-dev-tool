@@ -38,9 +38,23 @@ limitations under the License.
                 margin: 0;
             }
         </style>
+
     </head>
 
     <body>
+
+        <!-- Example of how to inject style into components -->
+        <custom-style>
+            <style is="custom-style">
+                html {
+                    --ft-source-panel-heading:
+                    {
+                        font-size:14pt;
+                    };
+                }
+            </style>
+        </custom-style>
+
         <ft-connect-front-end-dev-tool
                 style="height:100%; ">
         </ft-connect-front-end-dev-tool>

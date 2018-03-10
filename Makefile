@@ -1,6 +1,6 @@
 # Project configuration
 NAME=ft-connect-front-end-dev-tool
-VERSION=0.0.34
+VERSION=0.0.35
 LOCAL_PORT=3456
 GITHUB_USER=filethis
 GITHUB_USER_ABBREV=ft
@@ -11,3 +11,8 @@ CDN_DISTRIBUTION_ID=EJ2RMYD38WUXM
 
 # Project targets
 include project-application.make
+
+# Override the default. Can't use BrowserSync on this app. Makes node.js throw up.
+.PHONY: serve
+serve: project-serve-python  ## Shortcut for project-serve-python
+	@echo Done;
