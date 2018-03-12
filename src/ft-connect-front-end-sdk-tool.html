@@ -49,8 +49,8 @@ A development tool to assist partners in developing a front-end to FileThis serv
 
         <style>
             :host {
-                display:block;
-                overflow:hidden;
+                display: block;
+                overflow: hidden;
                 @apply --layout-vertical;
 
                 --paper-button-raised-keyboard-focus: {
@@ -72,12 +72,12 @@ A development tool to assist partners in developing a front-end to FileThis serv
         <!-- Header -->
         <div
             class="layout horizontal center"
-            style="height:60px; border-bottom:2px solid #DDD; "
+            style="height:60px; border-bottom: 2px solid #DDD; "
         >
 
             <!-- Heading -->
             <div
-                style="font-family:Arial; font-size:16pt; padding-left:20px; "
+                style="font-family:Arial; font-size: 16pt; padding-left: 20px; "
             >
                 FileThisConnect Front-End SDK Tool
             </div>
@@ -93,7 +93,7 @@ A development tool to assist partners in developing a front-end to FileThis serv
 
             <!-- Divider -->
             <div
-                style="width:25px; height:70%; border-left:1px solid #EEE; margin-left:25px; "
+                style="width:25px; height: 70%; border-left: 1px solid #EEE; margin-left: 25px; "
             >
             </div>
 
@@ -125,7 +125,7 @@ A development tool to assist partners in developing a front-end to FileThis serv
             </paper-dropdown-menu>
 
             <!-- Divider -->
-            <!--<div style="width:25px; height:70%; border-left:1px solid #EEE; margin-left:25px; "-->
+            <!--<div style="width:25px; height: 70%; border-left: 1px solid #EEE; margin-left: 25px; "-->
             <!--&gt;-->
             <!--</div>-->
 
@@ -161,7 +161,7 @@ A development tool to assist partners in developing a front-end to FileThis serv
             </ft-labeled-icon-button>
 
             <!-- Divider -->
-            <div style="width:25px; height:70%; border-left:1px solid #EEE; margin-left:22px; "
+            <div style="width:25px; height: 70%; border-left: 1px solid #EEE; margin-left: 22px; "
             >
             </div>
 
@@ -172,7 +172,7 @@ A development tool to assist partners in developing a front-end to FileThis serv
             <ft-labeled-icon-button
                 id="liveButton"
                 toggles="true"
-                style="padding-left:30px; padding-right:16px; "
+                style="padding-left:30px; padding-right: 16px; "
                 disabled="[[!canGoLive]]"
                 icon="power-settings-new"
                 label="[[_calculateEnabledButtonLabel(live)]]"
@@ -213,7 +213,7 @@ A development tool to assist partners in developing a front-end to FileThis serv
                     <div
                         class="layout vertical center"
                         name="live"
-                        style="width:100%; height:100%; "
+                        style="width:100%; height: 100%; "
                     >
                         <!-- ft-connect-tabbed -->
                         <template
@@ -225,7 +225,7 @@ A development tool to assist partners in developing a front-end to FileThis serv
                                 name="ft-connect-tabbed"
                                 use-local-data="true"
                                 show-header="false"
-                                style="width:100%; height:100%; "
+                                style="width:100%; height: 100%; "
                                 account-id="[[userAccountId]]"
                                 token="[[token]]"
                                 configurations="[[configurations]]"
@@ -233,7 +233,7 @@ A development tool to assist partners in developing a front-end to FileThis serv
                                 <ft-connect-tabbed
                                     id="instance"
                                     slot="instance"
-                                    style="width:100%; height:100%; "
+                                    style="width:100%; height: 100%; "
                                     live="[[live]]"
                                     server="[[server]]"
                                     api-path="[[apiPath]]"
@@ -260,7 +260,7 @@ A development tool to assist partners in developing a front-end to FileThis serv
                                 version="0.0.11"
                                 show-header="false"
                                 show-config="true"
-                                style="width:100%; height:100%; "
+                                style="width:100%; height: 100%; "
                                 account-id="[[userAccountId]]"
                                 token="[[token]]"
                                 configurations="[[configurations]]"
@@ -274,7 +274,7 @@ A development tool to assist partners in developing a front-end to FileThis serv
                                 <ft-connect-wizard
                                     id="instance"
                                     slot="instance"
-                                    style="width:100%; height:100%; "
+                                    style="width:100%; height: 100%; "
                                     live="[[live]]"
                                     server="[[server]]"
                                     api-path="[[apiPath]]"
@@ -320,7 +320,7 @@ A development tool to assist partners in developing a front-end to FileThis serv
                     <div
                         name="dead"
                         class="layout vertical center"
-                        style="width:100%; height:100%; box-sizing:border-box; "
+                        style="width:100%; height: 100%; box-sizing:border-box; "
                     >
                         <!-- Spacer -->
                         <div style="height:77px; "></div>
@@ -329,7 +329,7 @@ A development tool to assist partners in developing a front-end to FileThis serv
                         <div
                             class="layout vertical center"
                             style="
-                                width:800px; height:500px;
+                                width: 800px; height: 500px;
                                 border-style:dashed;
                                 border-color:black;
                                 border-width:2px;
@@ -339,7 +339,7 @@ A development tool to assist partners in developing a front-end to FileThis serv
                         >
 
                             <!-- Heading -->
-                            <div style="color:#A9A9A9; font-family:Arial;">[[selectedVariant]]</div>
+                            <div style="color:#A9A9A9; font-family: Arial, Helvetica, sans-serif;">[[selectedVariant]]</div>
 
                             <!-- Instructions -->
                             <div
