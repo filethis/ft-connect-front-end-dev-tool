@@ -1,5 +1,5 @@
 <!--
-Copyright 2017 FileThis, Inc.
+Copyright 2018 FileThis, Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -615,6 +615,11 @@ A development tool to assist partners in developing a front-end to FileThis serv
                 this._openConnectElementSourcesPage();
             },
 
+            _onMinimalButtonTapped: function(event)
+            {
+                this._openMinimalSite();
+            },
+
             _openGuidePage: function(event)
             {
                 var url = "https://filethis.com/developer/front-end/ft-development-tool/";
@@ -630,6 +635,12 @@ A development tool to assist partners in developing a front-end to FileThis serv
             _openConnectElementSourcesPage: function(event)
             {
                 var url = "https://github.com/filethis/" + this.selectedVariant;
+                this._openUrl(url);
+            },
+
+            _openMinimalSite: function(event)
+            {
+                var url = "https://connect.filethis.com/ft-connect-minimal-site/latest/app/index.html";
                 this._openUrl(url);
             },
 
