@@ -680,26 +680,29 @@ A development tool to assist partners in developing a front-end to FileThis serv
             {
                 this.live = false;
 
-                var error = event.detail;
+                var message = this._getErrorMessageFromEvent(event);
+                this.$.confirmationDialog.alert(message);
 
-                // Handle certain server error responses
-                if (error instanceof FtHttpUnsuccessfulError)
-                {
-                    var status = error.status;
-                    var response = error.response;
+                // this.handleCaughtError(event.detail);
+            },
 
-                    // If the token expired, or is invalid
-                    if (status === 400 &&
-                        !!response &&
-                        !!response.message &&
-                        response.message === "User access token expired")
-                    {
-                        this.$.confirmationDialog.alert("User access token is expired or invalid.");
-                        return;
-                    }
-                }
-
-                this.handleCaughtError(error);
+            _getErrorMessageFromEvent: function(event)
+            {
+                var detail = event.detail;
+                if (!detail)
+                    return "Error";
+                var response = detail.response;
+                if (!response)
+                    return detail;
+                var status = response.status;
+                if (!status)
+                    return detail;
+                if (status === 400)
+                    return "The current FileThis user access token has expired.\n\nCreate a new one using the fixture panel on the left.";
+                var message = response.message;
+                if (!message)
+                    return detail;
+                return message;
             },
 
             _handleWizardCanceledCommand: function()
