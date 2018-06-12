@@ -1,0 +1,402 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../polymer/polymer.html">
+
+<!--
+The `<iron-flex-layout>` component provides simple ways to use
+[CSS flexible box layout](https://developer.mozilla.org/en-US/docs/Web/Guide/CSS/Flexible_boxes),
+also known as flexbox. This component provides two different ways to use flexbox:
+
+1. [Layout classes](https://github.com/PolymerElements/iron-flex-layout/tree/master/iron-flex-layout-classes.html).
+The layout class stylesheet provides a simple set of class-based flexbox rules, that
+let you specify layout properties directly in markup. You must include this file
+in every element that needs to use them.
+
+    Sample use:
+
+    ```
+    <custom-element-demo>
+      <template>
+        <script src="../webcomponentsjs/webcomponents-lite.js"></script>
+        <next-code-block></next-code-block>
+      </template>
+    </custom-element-demo>
+    ```
+
+    ```html
+    <link rel="import" href="iron-flex-layout-classes.html">
+    <style is="custom-style" include="iron-flex iron-flex-alignment"></style>
+    <style>
+      .test { width: 100px; }
+    </style>
+    <div class="layout horizontal center-center">
+      <div class="test">horizontal layout center alignment</div>
+    </div>
+    ```
+
+2. [Custom CSS mixins](https://github.com/PolymerElements/iron-flex-layout/blob/master/iron-flex-layout.html).
+The mixin stylesheet includes custom CSS mixins that can be applied inside a CSS rule using the `@apply` function.
+
+Please note that the old [/deep/ layout classes](https://github.com/PolymerElements/iron-flex-layout/tree/master/classes)
+are deprecated, and should not be used. To continue using layout properties
+directly in markup, please switch to using the new `dom-module`-based
+[layout classes](https://github.com/PolymerElements/iron-flex-layout/tree/master/iron-flex-layout-classes.html).
+Please note that the new version does not use `/deep/`, and therefore requires you
+to import the `dom-modules` in every element that needs to use them.
+
+A complete [guide](https://elements.polymer-project.org/guides/flex-layout) to `<iron-flex-layout>` is available.
+
+@group Iron Elements
+@pseudoElement iron-flex-layout
+@demo demo/index.html
+-->
+
+<custom-style>
+  <style is="custom-style">
+    html {
+
+      --layout-unset: {
+        display: unset;
+      };
+
+      --layout-inline-unset: {
+        display: unset;
+      };
+
+      --layout-horizontal-unset: {
+        @apply --layout-unset;
+
+        -ms-flex-direction: unset;
+        -webkit-flex-direction: unset;
+        flex-direction: unset;
+      };
+
+      --layout-horizontal-reverse-unset: {
+        @apply --layout-unset;
+
+        -ms-flex-direction: unset;
+        -webkit-flex-direction: unset;
+        flex-direction: unset;
+      };
+
+      --layout-vertical-unset: {
+        @apply --layout-unset;
+
+        -ms-flex-direction: unset;
+        -webkit-flex-direction: unset;
+        flex-direction: unset;
+      };
+
+      --layout-vertical-reverse-unset: {
+        @apply --layout-unset;
+
+        -ms-flex-direction: unset;
+        -webkit-flex-direction: unset;
+        flex-direction: unset;
+      };
+
+      --layout-wrap-unset: {
+        -ms-flex-wrap: unset;
+        -webkit-flex-wrap: unset;
+        flex-wrap: unset;
+      };
+
+      --layout-wrap-reverse-unset: {
+        -ms-flex-wrap: unset;
+        -webkit-flex-wrap: unset;
+        flex-wrap: unset;
+      };
+
+      --layout-flex-auto-unset: {
+        -ms-flex: unset;
+        -webkit-flex: unset;
+        flex: unset;
+      };
+
+      --layout-flex-none-unset: {
+        -ms-flex: unset;
+        -webkit-flex: unset;
+        flex: unset;
+      };
+
+      --layout-flex-unset: {
+        -ms-flex: unset;
+        -webkit-flex: unset;
+        flex: unset;
+        -webkit-flex-basis: unset;
+        flex-basis: unset;
+      };
+
+      --layout-flex-2-unset: {
+        -ms-flex: unset;
+        -webkit-flex: unset;
+        flex: unset;
+      };
+
+      --layout-flex-3-unset: {
+        -ms-flex: unset;
+        -webkit-flex: unset;
+        flex: unset;
+      };
+
+      --layout-flex-4-unset: {
+        -ms-flex: unset;
+        -webkit-flex: unset;
+        flex: unset;
+      };
+
+      --layout-flex-5-unset: {
+        -ms-flex: unset;
+        -webkit-flex: unset;
+        flex: unset;
+      };
+
+      --layout-flex-6-unset: {
+        -ms-flex: unset;
+        -webkit-flex: unset;
+        flex: unset;
+      };
+
+      --layout-flex-7-unset: {
+        -ms-flex: unset;
+        -webkit-flex: unset;
+        flex: unset;
+      };
+
+      --layout-flex-8-unset: {
+        -ms-flex: unset;
+        -webkit-flex: unset;
+        flex: unset;
+      };
+
+      --layout-flex-9-unset: {
+        -ms-flex: unset;
+        -webkit-flex: unset;
+        flex: unset;
+      };
+
+      --layout-flex-10-unset: {
+        -ms-flex: unset;
+        -webkit-flex: unset;
+        flex: unset;
+      };
+
+      --layout-flex-11-unset: {
+        -ms-flex: unset;
+        -webkit-flex: unset;
+        flex: unset;
+      };
+
+      --layout-flex-12-unset: {
+        -ms-flex: unset;
+        -webkit-flex: unset;
+        flex: unset;
+      };
+
+      /* alignment in cross axis */
+
+      --layout-start-unset: {
+        -ms-flex-align: unset;
+        -webkit-align-items: unset;
+        align-items: unset;
+      };
+
+      --layout-center-unset: {
+        -ms-flex-align: unset;
+        -webkit-align-items: unset;
+        align-items: unset;
+      };
+
+      --layout-end-unset: {
+        -ms-flex-align: unset;
+        -webkit-align-items: unset;
+        align-items: unset;
+      };
+
+      --layout-baseline-unset: {
+        -ms-flex-align: unset;
+        -webkit-align-items: unset;
+        align-items: unset;
+      };
+
+      /* alignment in main axis */
+
+      --layout-start-justified-unset: {
+        -ms-flex-pack: unset;
+        -webkit-justify-content: unset;
+        justify-content: unset;
+      };
+
+      --layout-center-justified-unset: {
+        -ms-flex-pack: unset;
+        -webkit-justify-content: unset;
+        justify-content: unset;
+      };
+
+      --layout-end-justified-unset: {
+        -ms-flex-pack: unset;
+        -webkit-justify-content: unset;
+        justify-content: unset;
+      };
+
+      --layout-around-justified-unset: {
+        -ms-flex-pack: unset;
+        -webkit-justify-content: unset;
+        justify-content: unset;
+      };
+
+      --layout-justified-unset: {
+        -ms-flex-pack: unset;
+        -webkit-justify-content: unset;
+        justify-content: unset;
+      };
+
+      --layout-center-center-unset: {
+        @apply --layout-unset-center;
+        @apply --layout-unset-center-justified;
+      };
+
+      /* self alignment */
+
+      --layout-self-start-unset: {
+        -ms-align-self: unset;
+        -webkit-align-self: unset;
+        align-self: unset;
+      };
+
+      --layout-self-center-unset: {
+        -ms-align-self: unset;
+        -webkit-align-self: unset;
+        align-self: unset;
+      };
+
+      --layout-self-end-unset: {
+        -ms-align-self: unset;
+        -webkit-align-self: unset;
+        align-self: unset;
+      };
+
+      --layout-self-stretch-unset: {
+        -ms-align-self: unset;
+        -webkit-align-self: unset;
+        align-self: unset;
+      };
+
+      --layout-self-baseline-unset: {
+        -ms-align-self: unset;
+        -webkit-align-self: unset;
+        align-self: unset;
+      };
+
+      /* multi-line alignment in main axis */
+
+      --layout-start-aligned-unset: {
+        -ms-flex-line-pack: unset;  /* IE10 */
+        -ms-align-content: unset;
+        -webkit-align-content: unset;
+        align-content: unset;
+      };
+
+      --layout-end-aligned-unset: {
+        -ms-flex-line-pack: unset;  /* IE10 */
+        -ms-align-content: unset;
+        -webkit-align-content: unset;
+        align-content: unset;
+      };
+
+      --layout-center-aligned-unset: {
+        -ms-flex-line-pack: unset;  /* IE10 */
+        -ms-align-content: unset;
+        -webkit-align-content: unset;
+        align-content: unset;
+      };
+
+      --layout-between-aligned-unset: {
+        -ms-flex-line-pack: unset;  /* IE10 */
+        -ms-align-content: unset;
+        -webkit-align-content: unset;
+        align-content: unset;
+      };
+
+      --layout-around-aligned-unset: {
+        -ms-flex-line-pack: unset;  /* IE10 */
+        -ms-align-content: unset;
+        -webkit-align-content: unset;
+        align-content: unset;
+      };
+
+      /*******************************
+                Other Layout
+      *******************************/
+
+      --layout-block-unset: {
+        display: unset;
+      };
+
+      --layout-invisible-unset: {
+        visibility: unset;
+      };
+
+      --layout-relative-unset: {
+        position: unset;
+      };
+
+      --layout-fit-unset: {
+        position: unset;
+        top: unset;
+        right: unset;
+        bottom: unset;
+        left: unset;
+      };
+
+      --layout-scroll-unset: {
+        -webkit-overflow-scrolling: unset;
+        overflow: unset;
+      };
+
+      --layout-fullbleed-unset: {
+        margin: unset;
+        height: unset;
+      };
+
+      /* fixed position */
+
+      --layout-fixed-top-unset: {
+        position: unset;
+        top: unset;
+        left: unset;
+        right: unset;
+      };
+
+      --layout-fixed-right-unset: {
+        position: unset;
+        top: unset;
+        right: unset;
+        bottom: unset;
+      };
+
+      --layout-fixed-bottom-unset: {
+        position: unset;
+        right: unset;
+        bottom: unset;
+        left: unset;
+      };
+
+      --layout-fixed-left-unset: {
+        position: unset;
+        top: unset;
+        bottom: unset;
+        left: unset;
+      };
+
+    }
+  </style>
+</custom-style>
