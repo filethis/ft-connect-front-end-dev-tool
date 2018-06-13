@@ -39,40 +39,9 @@ limitations under the License.
             }
         </style>
 
-        <link rel="import" href="./src/ft-iron-flex-layout-unset.html">
-
-        <!-- An example of styling a sub-component of the ft-connect-wizard component -->
-        <custom-style>
-            <style is="custom-style">
-                html
-                {
-                    --ft-source-panel-header: {
-                        height: 120px;
-                        @apply --layout-center-unset;
-                        @apply --layout-vertical;
-                    };
-                    --ft-source-panel-search-field: {
-                        background-color:dodgerblue;
-                        width: initial;
-                        @apply --layout-flex;
-                    };
-                }
-            </style>
-        </custom-style>
-
     </head>
 
     <body>
-
-    <!-- Settings -->
-    <dom-bind>
-        <template>
-            <div>BAR</div>
-            <!--<ft-global-variable name="ft-source-panel-heading" value="XXX"></ft-global-variable>-->
-            <ft-global-variable name="ft-source-panel-heading" value="{{myval}}"></ft-global-variable>
-        </template>
-    </dom-bind>
-
         <ft-connect-front-end-sdk-tool
             style="height:100%; "
         >

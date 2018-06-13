@@ -25,6 +25,7 @@ limitations under the License.
 <link rel="import" href="../bower_components/ft-document-panel/demo/ft-document-panel-settings-editor.html">
 <link rel="import" href="../bower_components/ft-element-demo/ft-config-panel.html">
 <link rel="import" href="../bower_components/ft-element-demo/ft-element-demo.html">
+<link rel="import" href="../bower_components/ft-global-variable/ft-global-variable.html">
 <link rel="import" href="../bower_components/ft-source-panel/demo/ft-source-panel-settings-editor.html">
 <link rel="import" href="../bower_components/ft-url-param-behavior/ft-url-param-behavior.html">
 <link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
@@ -61,12 +62,37 @@ A development tool to assist partners in developing a front-end to FileThis serv
                 };
             }
 
+            /* Custom Styling */
+            :root
+            {
+                --ft-source-panel: {
+                    background-color: white;
+                };
+                /*--ft-source-panel-header: {*/
+                    /*background-color: dodgerblue;*/
+                /*};*/
+                /*--ft-source-panel-header: {*/
+                    /*height: 120px;*/
+                    /*@apply --layout-center-unset;*/
+                    /*@apply --layout-vertical;*/
+                /*};*/
+                /*--ft-source-panel-search-field: {*/
+                    /*background-color:dodgerblue;*/
+                    /*width: initial;*/
+                    /*@apply --layout-flex;*/
+                /*};*/
+            }
         </style>
+
+        <!-- Custom Settings -->
+        <ft-global-variable name="ft-source-panel-heading" value="{{sourcePanelHeading}}"></ft-global-variable>
+        <ft-global-variable name="ft-source-panel-show-filters" value="{{sourcePanelShowFilters}}"></ft-global-variable>
 
         <!-- Two-way bind the application route to the browser's address bar -->
         <app-location
-                use-hash-as-path
-                route="{{route}}">
+            use-hash-as-path
+            route="{{route}}"
+        >
         </app-location>
 
         <!-- Header -->
@@ -390,11 +416,25 @@ A development tool to assist partners in developing a front-end to FileThis serv
 
             listeners:
             {
-                'tap': '_onTap',
+                "tap": "_onTap",
             },
 
             properties:
             {
+                /** Source panel heading. */
+                sourcePanelHeading:
+                {
+                    type: String,
+                    notify: true,
+                    value: "Let's get a picture of your profits",
+                },
+                sourcePanelShowFilters:
+                {
+                    type: Object,
+                    notify: true,
+                    value: false,
+                },
+
                 // Variant
 
                 selectedVariant:
@@ -580,6 +620,8 @@ A development tool to assist partners in developing a front-end to FileThis serv
 
             ready: function()
             {
+                window.FileThis.FtGlobalVariables.initialize();
+
                 // TODO: Make auto-enable at startup a preference?
                 this.async(function()
                 {
