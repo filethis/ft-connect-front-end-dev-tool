@@ -23,9 +23,7 @@ limitations under the License.
 <link rel="import" href="../bower_components/ft-connection-panel/demo/ft-connection-panel-settings-editor.html">
 <link rel="import" href="../bower_components/ft-connection-list-item/demo/ft-connection-list-item-settings-editor.html">
 <link rel="import" href="../bower_components/ft-document-panel/demo/ft-document-panel-settings-editor.html">
-<link rel="import" href="../bower_components/ft-element-demo/ft-config-panel.html">
 <link rel="import" href="../bower_components/ft-element-demo/ft-element-demo.html">
-<link rel="import" href="../bower_components/ft-global-variable/ft-global-variable.html">
 <link rel="import" href="../bower_components/ft-source-panel/demo/ft-source-panel-settings-editor.html">
 <link rel="import" href="../bower_components/ft-url-param-behavior/ft-url-param-behavior.html">
 <link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
@@ -36,6 +34,8 @@ limitations under the License.
 <link rel="import" href="../bower_components/paper-listbox/paper-listbox.html">
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="manager-panel.html">
+<link rel="import" href="configuration-panel.html">
+
 
 <!--
 `ft-connect-front-end-sdk-tool`
@@ -85,8 +85,13 @@ A development tool to assist partners in developing a front-end to FileThis serv
         </style>
 
         <!-- Custom Settings -->
-        <ft-global-variable name="ft-source-panel-heading" value="{{sourcePanelHeading}}"></ft-global-variable>
-        <ft-global-variable name="ft-source-panel-show-filters" value="{{sourcePanelShowFilters}}"></ft-global-variable>
+        <ft-source-panel-settings
+            ft-source-panel-heading="Please choose a website">
+        </ft-source-panel-settings>
+        <ft-connection-list-item-settings
+            ft-connection-list-item-allow-manual-fetch=true
+        >
+        </ft-connection-list-item-settings>
 
         <!-- Two-way bind the application route to the browser's address bar -->
         <app-location
@@ -118,23 +123,17 @@ A development tool to assist partners in developing a front-end to FileThis serv
             </ft-labeled-icon-button>
 
             <!-- Divider -->
-            <div
-                style="width:25px; height: 70%; border-left: 1px solid #EEE; margin-left: 25px; "
-            >
-            </div>
+            <!--<div-->
+                <!--style="width:25px; height: 70%; border-left: 1px solid #EEE; margin-left: 25px; "-->
+            <!--&gt;-->
+            <!--</div>-->
 
             <!-- Platform menu -->
             <paper-dropdown-menu
                 id="platformMenu"
-                hidden="true"
                 label="Platform"
                 style="width:140px; "
             >
-            <!--<paper-dropdown-menu-->
-                <!--id="platformMenu"-->
-                <!--label="Platform"-->
-                <!--style="width:140px; "-->
-            <!--&gt;-->
                 <paper-listbox
                     class="dropdown-content"
                     slot="dropdown-content"
@@ -150,13 +149,22 @@ A development tool to assist partners in developing a front-end to FileThis serv
                 </paper-listbox>
             </paper-dropdown-menu>
 
-            <!-- Divider -->
-            <!--<div style="width:25px; height: 70%; border-left: 1px solid #EEE; margin-left: 25px; "-->
-            <!--&gt;-->
-            <!--</div>-->
+            <div
+                style="
+                    width:2px;
+                    height: 70%;
+                    border-left: 1px solid #EEE;
+                    margin-left: 25px;
+                "
+            >
+            </div>
 
             <!-- Variants -->
-            <paper-dropdown-menu label="Web Component Variant" style="width:200px; ">
+            <paper-dropdown-menu
+                id="variantsMenu"
+                label="Web Component Variant"
+                style="width:200px; "
+            >
                 <paper-listbox
                     class="dropdown-content"
                     slot="dropdown-content"
@@ -234,6 +242,36 @@ A development tool to assist partners in developing a front-end to FileThis serv
             >
             </manager-panel>
 
+            <!-- Configuration panel -->
+            <configuration-panel
+                id="configurationPanel"
+                style="border-right:2px solid #DDD;"
+                configurations="{{_configurations}}"
+
+                ft-connection-panel-show-heading="{{ftConnectionPanelShowHeading}}"
+                ft-connection-panel-heading="{{ftConnectionPanelHeading}}"
+                ft-connection-panel-show-delete-button="{{ftConnectionPanelShowDeleteButton}}"
+                ft-connection-show-details-panel="{{ftConnectionShowDetailsPanel}}"
+
+                ft-connection-list-item-allow-manual-fetch="{{ftConnectionListItemAllowManualFetch}}"
+
+                ft-document-panel-show-heading="{{ftDocumentPanelShowHeading}}"
+                ft-document-panel-heading="{{ftDocumentPanelHeading}}"
+                ft-document-panel-show-grid-button="{{ftDocumentPanelShowGridButton}}"
+                ft-document-panel-show-list-button="{{ftDocumentPanelShowListButton}}"
+                ft-document-panel-show-preview-button="{{ftDocumentPanelShowPreviewButton}}"
+                ft-document-panel-show-upload-button="{{ftDocumentPanelShowUploadButton}}"
+                ft-document-panel-show-download-button="{{ftDocumentPanelShowDownloadButton}}"
+                ft-document-panel-show-delete-button="{{ftDocumentPanelShowDeleteButton}}"
+                ft-document-panel-show-document-count="{{ftDocumentPanelShowDocumentCount}}"
+
+                ft-source-panel-show-filters="{{ftSourcePanelShowFilters}}"
+                ft-source-panel-heading="{{ftSourcePanelHeading}}"
+                ft-source-panel-show-heading="{{ftSourcePanelShowHeading}}"
+                ft-source-panel-show-search-field="{{ftSourcePanelShowSearchField}}"
+            >
+            </configuration-panel>
+
             <!-- FileThis Connect panel -->
             <div
                 class="flex layout vertical center"
@@ -263,7 +301,7 @@ A development tool to assist partners in developing a front-end to FileThis serv
                                 style="width:100%; height: 100%; "
                                 account-id="[[userAccountId]]"
                                 token="[[token]]"
-                                configurations="[[configurations]]"
+                                configurations="[[_configurations]]"
                             >
                                 <ft-connect-tabbed
                                     id="instance"
@@ -294,18 +332,11 @@ A development tool to assist partners in developing a front-end to FileThis serv
                                 name="ft-connect-wizard"
                                 version="0.0.11"
                                 show-header="false"
-                                show-config="true"
                                 style="width:100%; height: 100%; "
                                 account-id="[[userAccountId]]"
                                 token="[[token]]"
-                                configurations="[[configurations]]"
+                                configurations="[[_configurations]]"
                             >
-                                <ft-config-panel
-                                    slot="config"
-                                    configurations="[[configurations]]"
-                                >
-                                </ft-config-panel>
-
                                 <ft-connect-wizard
                                     id="instance"
                                     slot="instance"
@@ -321,6 +352,28 @@ A development tool to assist partners in developing a front-end to FileThis serv
                                     on-ft-connect-error="_handleFileThisConnectErrorEvent"
                                     on-wizard-canceled-command="_handleWizardCanceledCommand"
                                     on-wizard-done-command="_handleWizardDoneCommand"
+
+                                    ft-connection-panel-show-heading="{{ftConnectionPanelShowHeading}}"
+                                    ft-connection-panel-heading="{{ftConnectionPanelHeading}}"
+                                    ft-connection-panel-show-delete-button="{{ftConnectionPanelShowDeleteButton}}"
+                                    ft-connection-show-details-panel="{{ftConnectionShowDetailsPanel}}"
+
+                                    ft-connection-list-item-allow-manual-fetch="{{ftConnectionListItemAllowManualFetch}}"
+
+                                    ft-document-panel-show-heading="{{ftDocumentPanelShowHeading}}"
+                                    ft-document-panel-heading="{{ftDocumentPanelHeading}}"
+                                    ft-document-panel-show-grid-button="{{ftDocumentPanelShowGridButton}}"
+                                    ft-document-panel-show-list-button="{{ftDocumentPanelShowListButton}}"
+                                    ft-document-panel-show-preview-button="{{ftDocumentPanelShowPreviewButton}}"
+                                    ft-document-panel-show-upload-button="{{ftDocumentPanelShowUploadButton}}"
+                                    ft-document-panel-show-download-button="{{ftDocumentPanelShowDownloadButton}}"
+                                    ft-document-panel-show-delete-button="{{ftDocumentPanelShowDeleteButton}}"
+                                    ft-document-panel-show-document-count="{{ftDocumentPanelShowDocumentCount}}"
+
+                                    ft-source-panel-show-filters="{{ftSourcePanelShowFilters}}"
+                                    ft-source-panel-heading="{{ftSourcePanelHeading}}"
+                                    ft-source-panel-show-heading="{{ftSourcePanelShowHeading}}"
+                                    ft-source-panel-show-search-field="{{ftSourcePanelShowSearchField}}"
                                 >
                                 </ft-connect-wizard>
                             </ft-element-demo>
@@ -411,7 +464,7 @@ A development tool to assist partners in developing a front-end to FileThis serv
             behaviors: [
                 FileThis.ErrorBehavior,
                 FileThis.HttpBehavior,
-                FileThis.UrlParamBehavior
+                FileThis.UrlParamBehavior,
             ],
 
             listeners:
@@ -421,20 +474,6 @@ A development tool to assist partners in developing a front-end to FileThis serv
 
             properties:
             {
-                /** Source panel heading. */
-                sourcePanelHeading:
-                {
-                    type: String,
-                    notify: true,
-                    value: "Let's get a picture of your profits",
-                },
-                sourcePanelShowFilters:
-                {
-                    type: Object,
-                    notify: true,
-                    value: false,
-                },
-
                 // Variant
 
                 selectedVariant:
@@ -590,38 +629,48 @@ A development tool to assist partners in developing a front-end to FileThis serv
                     value: false
                 },
 
-                configurations:{
+                // Configurations
+
+                _configurations:{
                     type: Array,
+                    notify: true,
                     value: [
                         {
+                            name: "ft-connection-list-item",
                             label: "<ft-connection-list-item>",
                             settingsEditorName: "ft-connection-list-item-settings-editor",
                             settingsTargetName: "ft-connection-list-item",
                         },
                         {
+                            name: "ft-connection-panel",
                             label: "<ft-connection-panel>",
                             settingsEditorName: "ft-connection-panel-settings-editor",
                             settingsTargetName: "ft-connection-panel",
                         },
                         {
+                            name: "ft-document-panel",
                             label: "<ft-document-panel>",
                             settingsEditorName: "ft-document-panel-settings-editor",
                             settingsTargetName: "ft-document-panel",
                         },
                         {
+                            name: "ft-source-panel",
                             label: "<ft-source-panel>",
                             settingsEditorName: "ft-source-panel-settings-editor",
                             settingsTargetName: "ft-source-panel",
                         },
+                        {
+                            name: "ft-source-grid-item",
+                            label: "<ft-source-grid-item>",
+                            settingsEditorName: "ft-source-grid-item-settings-editor",
+                            settingsTargetName: "ft-source-grid-item",
+                        },
                     ],
                 },
-
             },
 
             ready: function()
             {
-                window.FileThis.FtGlobalVariables.initialize();
-
                 // TODO: Make auto-enable at startup a preference?
                 this.async(function()
                 {
@@ -629,9 +678,15 @@ A development tool to assist partners in developing a front-end to FileThis serv
                         this.live = true;
 
                     if (this.getUrlParam("devel"))
+                    {
                         this.$.platformMenu.style.display = "block";
+                        this.$.variantsMenu.style.display = "block";
+                    }
                     else
+                    {
                         this.$.platformMenu.style.display = "none";
+                        this.$.variantsMenu.style.display = "none";
+                    }
 
                 }, 500);
             },
@@ -889,7 +944,7 @@ A development tool to assist partners in developing a front-end to FileThis serv
                     default:
                         throw new Error("Invalid platform index: " + this._selectedPlatformIndex.toString());
                 }
-            }
+            },
 
         })
 
