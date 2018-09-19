@@ -30,6 +30,7 @@ limitations under the License.
 <link rel="import" href="../bower_components/paper-listbox/paper-listbox.html">
 <link rel="import" href="style-panel.html">
 <link rel="import" href="inspect-panel.html">
+<link rel="import" href="../bower_components/ft-connect-wizard/demo/ft-connect-wizard-settings-editor.html">
 <link rel="import" href="../bower_components/ft-connection-panel/demo/ft-connection-panel-settings-editor.html">
 <link rel="import" href="../bower_components/ft-connection-panel/ft-connection-panel-settings-behavior.html">
 <link rel="import" href="../bower_components/ft-connection-list-item/demo/ft-connection-list-item-settings-editor.html">
@@ -38,8 +39,8 @@ limitations under the License.
 <link rel="import" href="../bower_components/ft-document-panel/ft-document-panel-settings-behavior.html">
 <link rel="import" href="../bower_components/ft-source-panel/demo/ft-source-panel-settings-editor.html">
 <link rel="import" href="../bower_components/ft-source-panel/ft-source-panel-settings-behavior.html">
-<!--<link rel="import" href="../bower_components/ft-source-grid-item/demo/ft-source-grid-item-settings-editor.html">-->
-<!--<link rel="import" href="../bower_components/ft-source-grid-item/ft-source-grid-item-settings-behavior.html">-->
+<link rel="import" href="../bower_components/ft-source-grid-item/demo/ft-source-grid-item-settings-editor.html">
+<link rel="import" href="../bower_components/ft-source-grid-item/ft-source-grid-item-settings-behavior.html">
 
 
 <dom-module id="configuration-panel">
@@ -59,7 +60,10 @@ limitations under the License.
         <style>
         </style>
 
-        <app-localstorage-document key="configurationIsOpen" data="{{_configurationIsOpen}}">
+        <app-localstorage-document key="configurationPanel-configurationIsOpen" data="{{_configurationIsOpen}}">
+        </app-localstorage-document>
+
+        <app-localstorage-document key="configurationPanel-selectedConfigurationIndex" data="{{_selectedConfigurationIndex}}">
         </app-localstorage-document>
 
         <ft-accordion-item
@@ -102,6 +106,13 @@ limitations under the License.
                     attr-for-selected="name"
                     selected="[[_selectedConfigurationName]]"
                 >
+                    <ft-connect-wizard-settings-editor
+                        id="connectWizardSettingsEditor"
+                        name="ft-connect-wizard"
+                        ft-connect-wizard-show-documents-panel="{{ftConnectWizardShowDocumentsPanel}}"
+                    >
+                    </ft-connect-wizard-settings-editor>
+
                     <ft-connection-panel-settings-editor
                         id="connectionPanelSettingsEditor"
                         name="ft-connection-panel"
@@ -161,6 +172,7 @@ limitations under the License.
             is: 'configuration-panel',
 
             behaviors: [
+                FileThis.ConnectWizardSettingsBehavior,
                 FileThis.ConnectionPanelSettingsBehavior,
                 FileThis.ConnectionListItemSettingsBehavior,
                 FileThis.DocumentPanelSettingsBehavior,
@@ -222,6 +234,9 @@ limitations under the License.
                     var settingsEditor;
                     switch (configuration.name)
                     {
+                        case "ft-connect-wizard":
+                            settingsEditor = this.$.connectWizardSettingsEditor;
+                            break;
                         case "ft-connection-list-item":
                             settingsEditor = this.$.connectionPanelSettingsEditor;
                             break;

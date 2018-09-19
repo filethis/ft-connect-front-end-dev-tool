@@ -20,6 +20,7 @@ limitations under the License.
 <link rel="import" href="../bower_components/ft-connect-expand-out/ft-connect-expand-out.html">
 <link rel="import" href="../bower_components/ft-connect-tabbed/ft-connect-tabbed.html">
 <link rel="import" href="../bower_components/ft-connect-wizard/ft-connect-wizard.html">
+<link rel="import" href="../bower_components/ft-connect-wizard/demo/ft-connect-wizard-settings-editor.html">
 <link rel="import" href="../bower_components/ft-connection-panel/demo/ft-connection-panel-settings-editor.html">
 <link rel="import" href="../bower_components/ft-connection-list-item/demo/ft-connection-list-item-settings-editor.html">
 <link rel="import" href="../bower_components/ft-document-panel/demo/ft-document-panel-settings-editor.html">
@@ -35,6 +36,8 @@ limitations under the License.
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="manager-panel.html">
 <link rel="import" href="configuration-panel.html">
+
+<link rel="import" href="../bower_components/app-storage/app-localstorage/app-localstorage-document.html">
 
 
 <!--
@@ -88,10 +91,6 @@ A development tool to assist partners in developing a front-end to FileThis serv
         <ft-source-panel-settings
             ft-source-panel-heading="Please choose a website">
         </ft-source-panel-settings>
-        <ft-connection-list-item-settings
-            ft-connection-list-item-allow-manual-fetch=true
-        >
-        </ft-connection-list-item-settings>
 
         <!-- Two-way bind the application route to the browser's address bar -->
         <app-location
@@ -248,6 +247,8 @@ A development tool to assist partners in developing a front-end to FileThis serv
                 style="border-right:2px solid #DDD;"
                 configurations="{{_configurations}}"
 
+                ft-connect-wizard-show-documents-panel="{{ftConnectWizardShowDocumentsPanel}}"
+
                 ft-connection-panel-show-heading="{{ftConnectionPanelShowHeading}}"
                 ft-connection-panel-heading="{{ftConnectionPanelHeading}}"
                 ft-connection-panel-show-delete-button="{{ftConnectionPanelShowDeleteButton}}"
@@ -352,6 +353,8 @@ A development tool to assist partners in developing a front-end to FileThis serv
                                     on-ft-connect-error="_handleFileThisConnectErrorEvent"
                                     on-wizard-canceled-command="_handleWizardCanceledCommand"
                                     on-wizard-done-command="_handleWizardDoneCommand"
+
+                                    ft-connect-wizard-show-documents-panel="{{ftConnectWizardShowDocumentsPanel}}"
 
                                     ft-connection-panel-show-heading="{{ftConnectionPanelShowHeading}}"
                                     ft-connection-panel-heading="{{ftConnectionPanelHeading}}"
@@ -636,35 +639,29 @@ A development tool to assist partners in developing a front-end to FileThis serv
                     notify: true,
                     value: [
                         {
+                            name: "ft-connect-wizard",
+                            label: "<ft-connect-wizard>",
+                        },
+                        {
                             name: "ft-connection-list-item",
                             label: "<ft-connection-list-item>",
-                            settingsEditorName: "ft-connection-list-item-settings-editor",
-                            settingsTargetName: "ft-connection-list-item",
                         },
                         {
                             name: "ft-connection-panel",
                             label: "<ft-connection-panel>",
-                            settingsEditorName: "ft-connection-panel-settings-editor",
-                            settingsTargetName: "ft-connection-panel",
                         },
                         {
                             name: "ft-document-panel",
                             label: "<ft-document-panel>",
-                            settingsEditorName: "ft-document-panel-settings-editor",
-                            settingsTargetName: "ft-document-panel",
                         },
                         {
                             name: "ft-source-panel",
                             label: "<ft-source-panel>",
-                            settingsEditorName: "ft-source-panel-settings-editor",
-                            settingsTargetName: "ft-source-panel",
                         },
-                        {
-                            name: "ft-source-grid-item",
-                            label: "<ft-source-grid-item>",
-                            settingsEditorName: "ft-source-grid-item-settings-editor",
-                            settingsTargetName: "ft-source-grid-item",
-                        },
+                        // {
+                        //     name: "ft-source-grid-item",
+                        //     label: "<ft-source-grid-item>",
+                        // },
                     ],
                 },
             },
