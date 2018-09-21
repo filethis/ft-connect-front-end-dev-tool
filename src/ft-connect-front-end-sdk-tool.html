@@ -93,11 +93,11 @@ A development tool to assist partners in developing a front-end to FileThis serv
         </ft-source-panel-settings>
 
         <!-- Two-way bind the application route to the browser's address bar -->
-        <app-location
-            use-hash-as-path
-            route="{{route}}"
-        >
-        </app-location>
+        <!--<app-location-->
+            <!--use-hash-as-path-->
+            <!--route="{{route}}"-->
+        <!--&gt;-->
+        <!--</app-location>-->
 
         <!-- Header -->
         <div
@@ -148,15 +148,15 @@ A development tool to assist partners in developing a front-end to FileThis serv
                 </paper-listbox>
             </paper-dropdown-menu>
 
-            <div
-                style="
-                    width:2px;
-                    height: 70%;
-                    border-left: 1px solid #EEE;
-                    margin-left: 25px;
-                "
-            >
-            </div>
+            <!--<div-->
+                <!--style="-->
+                    <!--width:2px;-->
+                    <!--height: 70%;-->
+                    <!--border-left: 1px solid #EEE;-->
+                    <!--margin-left: 25px;-->
+                <!--"-->
+            <!--&gt;-->
+            <!--</div>-->
 
             <!-- Variants -->
             <paper-dropdown-menu
@@ -177,6 +177,7 @@ A development tool to assist partners in developing a front-end to FileThis serv
 
             <!-- API documentation button -->
             <ft-labeled-icon-button
+                id="docsButton"
                 style="padding-left:20px; "
                 icon="info-outline"
                 label="Docs"
@@ -186,6 +187,7 @@ A development tool to assist partners in developing a front-end to FileThis serv
 
             <!-- GitHub repository button -->
             <ft-labeled-icon-button
+                id="repoButton"
                 style="padding-left:8px; "
                 icon-src="./src/github.svg"
                 label="Repo"
@@ -203,9 +205,9 @@ A development tool to assist partners in developing a front-end to FileThis serv
             </ft-labeled-icon-button>
 
             <!-- Divider -->
-            <div style="width:25px; height: 70%; border-left: 1px solid #EEE; margin-left: 22px; "
-            >
-            </div>
+            <!--<div style="width:25px; height: 70%; border-left: 1px solid #EEE; margin-left: 22px; "-->
+            <!--&gt;-->
+            <!--</div>-->
 
             <!-- Spacer -->
             <div class="flex" style="min-width:30px; "></div>
@@ -246,6 +248,7 @@ A development tool to assist partners in developing a front-end to FileThis serv
                 id="configurationPanel"
                 style="border-right:2px solid #DDD;"
                 configurations="{{_configurations}}"
+                selected-configuration="{{selectedConfiguration}}"
 
                 ft-connect-wizard-show-documents-panel="{{ftConnectWizardShowDocumentsPanel}}"
 
@@ -260,6 +263,7 @@ A development tool to assist partners in developing a front-end to FileThis serv
                 ft-document-panel-heading="{{ftDocumentPanelHeading}}"
                 ft-document-panel-show-grid-button="{{ftDocumentPanelShowGridButton}}"
                 ft-document-panel-show-list-button="{{ftDocumentPanelShowListButton}}"
+                ft-document-panel-view-as-initial="{{ftDocumentPanelViewAsInitial}}"
                 ft-document-panel-show-preview-button="{{ftDocumentPanelShowPreviewButton}}"
                 ft-document-panel-show-upload-button="{{ftDocumentPanelShowUploadButton}}"
                 ft-document-panel-show-download-button="{{ftDocumentPanelShowDownloadButton}}"
@@ -348,6 +352,7 @@ A development tool to assist partners in developing a front-end to FileThis serv
                                     user-account-id="[[userAccountId]]"
                                     token="[[token]]"
                                     interaction-version="[[interactionVersion]]"
+                                    selected-panel-name="{{selectedPanelName}}"
                                     debug="true"
                                     fake-sources="true"
                                     on-ft-connect-error="_handleFileThisConnectErrorEvent"
@@ -367,6 +372,7 @@ A development tool to assist partners in developing a front-end to FileThis serv
                                     ft-document-panel-heading="{{ftDocumentPanelHeading}}"
                                     ft-document-panel-show-grid-button="{{ftDocumentPanelShowGridButton}}"
                                     ft-document-panel-show-list-button="{{ftDocumentPanelShowListButton}}"
+                                    ft-document-panel-view-as-initial="{{ftDocumentPanelViewAsInitial}}"
                                     ft-document-panel-show-preview-button="{{ftDocumentPanelShowPreviewButton}}"
                                     ft-document-panel-show-upload-button="{{ftDocumentPanelShowUploadButton}}"
                                     ft-document-panel-show-download-button="{{ftDocumentPanelShowDownloadButton}}"
@@ -473,6 +479,7 @@ A development tool to assist partners in developing a front-end to FileThis serv
             listeners:
             {
                 "tap": "_onTap",
+                'internal-settings-changed': '_onInternalSettingsChanged',
             },
 
             properties:
@@ -664,6 +671,14 @@ A development tool to assist partners in developing a front-end to FileThis serv
                         // },
                     ],
                 },
+
+                selectedConfiguration:
+                    {
+                        type: Object,
+                        value: null,
+                        notify: true,
+                        observer: "_onSelectedConfigurationChanged"
+                    },
             },
 
             ready: function()
@@ -678,14 +693,40 @@ A development tool to assist partners in developing a front-end to FileThis serv
                     {
                         this.$.platformMenu.style.display = "block";
                         this.$.variantsMenu.style.display = "block";
+                        this.$.docsButton.style.display = "block";
+                        this.$.repoButton.style.display = "block";
                     }
                     else
                     {
                         this.$.platformMenu.style.display = "none";
                         this.$.variantsMenu.style.display = "none";
+                        this.$.docsButton.style.display = "none";
+                        this.$.repoButton.style.display = "none";
                     }
 
                 }, 500);
+            },
+
+            _onSelectedConfigurationChanged: function(to, from)
+            {
+                var selectedConfiguration = this.selectedConfiguration;
+                if (!selectedConfiguration)
+                    return;
+                switch (selectedConfiguration.name)
+                {
+                    case "ft-connection-list-item":
+                    case "ft-connection-panel":
+                        this.selectedPanelName = "connections";
+                        break;
+
+                    case "ft-document-panel":
+                        this.selectedPanelName = "documents";
+                        break;
+
+                    case "ft-source-panel":
+                        this.selectedPanelName = "sources";
+                        break;
+                }
             },
 
             _onTap: function(event)
@@ -712,6 +753,11 @@ A development tool to assist partners in developing a front-end to FileThis serv
             _onMinimalButtonTapped: function(event)
             {
                 this._openMinimalSite();
+            },
+
+            _onInternalSettingsChanged: function(event)
+            {
+                this.$.configurationPanel.updateSettingsDefaultButtonEnabled();
             },
 
             _openGuidePage: function(event)

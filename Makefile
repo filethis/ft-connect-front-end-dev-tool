@@ -9,7 +9,7 @@ QUERY_STRING=${FT_POLYMER_QUERY_STRING}
 #QUERY_STRING="?devel=1"
 CDN_DISTRIBUTION_ID=EJ2RMYD38WUXM
 PUBLICATION_DOMAIN=connect.filethis.com
-AWS_VAULT_PROFILE=filethis-production
+AWS_VAULT_PROFILE=filethis
 
 # Project targets
 include project-application.make

@@ -37,10 +37,12 @@ limitations under the License.
 <link rel="import" href="../bower_components/ft-connection-list-item/ft-connection-list-item-settings-behavior.html">
 <link rel="import" href="../bower_components/ft-document-panel/demo/ft-document-panel-settings-editor.html">
 <link rel="import" href="../bower_components/ft-document-panel/ft-document-panel-settings-behavior.html">
+<link rel="import" href="../bower_components/ft-form-panel/ft-form-panel.html">
 <link rel="import" href="../bower_components/ft-source-panel/demo/ft-source-panel-settings-editor.html">
 <link rel="import" href="../bower_components/ft-source-panel/ft-source-panel-settings-behavior.html">
 <link rel="import" href="../bower_components/ft-source-grid-item/demo/ft-source-grid-item-settings-editor.html">
 <link rel="import" href="../bower_components/ft-source-grid-item/ft-source-grid-item-settings-behavior.html">
+<link rel="import" href="../bower_components/ft-styler/ft-styler.html">
 
 
 <dom-module id="configuration-panel">
@@ -58,12 +60,31 @@ limitations under the License.
         </style>
 
         <style>
+            .form-panel
+            {
+                padding-left: 5px;
+                padding-right: 15px;
+                padding-bottom: 0px;
+            }
+            .section-divider
+            {
+                width: 100%;
+                margin-bottom: 10px;
+                height: 10px;
+                border-bottom: 1px solid #DDD;
+            }
         </style>
 
         <app-localstorage-document key="configurationPanel-configurationIsOpen" data="{{_configurationIsOpen}}">
         </app-localstorage-document>
 
         <app-localstorage-document key="configurationPanel-selectedConfigurationIndex" data="{{_selectedConfigurationIndex}}">
+        </app-localstorage-document>
+
+        <app-localstorage-document key="configurationPanel-settingsPanelOpen" data="{{_settingsPanelOpen}}">
+        </app-localstorage-document>
+
+        <app-localstorage-document key="configurationPanel-stylingPanelOpen" data="{{_stylingPanelOpen}}">
         </app-localstorage-document>
 
         <ft-accordion-item
@@ -74,94 +95,175 @@ limitations under the License.
             <div
                 slot="content"
                 class="flex layout vertical"
-                style="
-                    padding-left:10px;
-                    padding-right:10px;
-                "
             >
-                <!-- Web component menu -->
-                <paper-dropdown-menu
-                    id="configurationMenu"
-                    label="Web Component"
-                    style="width:200px; margin-bottom: 16px; "
+                <!-- Web component menu and repo button -->
+                <div
+                    class="layout horizontal center"
+                    style="
+                        padding-left: 20px;
+                        padding-right: 15px;
+                        padding-bottom: 0;
+                    "
                 >
-                    <paper-listbox
-                        class="dropdown-content"
-                        slot="dropdown-content"
-                        selected="{{_selectedConfigurationIndex}}"
+                    <!-- Web component menu -->
+                    <paper-dropdown-menu
+                        id="configurationMenu"
+                        label="Web Component"
+                        style="width:200px; margin-bottom: 0; "
                     >
-                        <template
-                            is="dom-repeat"
-                            items="[[configurations]]"
-                            as="configuration"
+                        <paper-listbox
+                            class="dropdown-content"
+                            slot="dropdown-content"
+                            selected="{{_selectedConfigurationIndex}}"
                         >
-                            <paper-item>[[configuration.label]]</paper-item>
-                        </template>
-                    </paper-listbox>
-                </paper-dropdown-menu>
+                            <template
+                                is="dom-repeat"
+                                items="[[configurations]]"
+                                as="configuration"
+                            >
+                                <paper-item>[[configuration.label]]</paper-item>
+                            </template>
+                        </paper-listbox>
+                    </paper-dropdown-menu>
 
-                <iron-pages
-                    id="configurationEditors"
-                    class="flex layout vertical"
-                    attr-for-selected="name"
-                    selected="[[_selectedConfigurationName]]"
+                    <!-- GitHub repository button -->
+                    <ft-labeled-icon-button
+                        style="padding-left:20px; "
+                        icon-src="./src/github.svg"
+                        label="Repo"
+                        on-tap="_onSourcesButtonTapped"
+                    >
+                    </ft-labeled-icon-button>
+                </div>
+
+                <!-- Divider -->
+                <div class="section-divider"></div>
+
+                <!-- Settings panel -->
+                <ft-form-panel
+                    heading="Settings"
+                    class="form-panel"
+                    content-shown={{_settingsPanelOpen}}
                 >
-                    <ft-connect-wizard-settings-editor
-                        id="connectWizardSettingsEditor"
-                        name="ft-connect-wizard"
-                        ft-connect-wizard-show-documents-panel="{{ftConnectWizardShowDocumentsPanel}}"
+                    <!-- Summary -->
+                    <div
+                        slot="summary"
+                        style="font-family:'Roboto', sans-serif; font-size: 9pt; padding-top: 4px; color: #AAA; "
                     >
-                    </ft-connect-wizard-settings-editor>
+                        [[_secretsShownText]]
+                    </div>
 
-                    <ft-connection-panel-settings-editor
-                        id="connectionPanelSettingsEditor"
-                        name="ft-connection-panel"
-                        ft-connection-panel-show-heading="{{ftConnectionPanelShowHeading}}"
-                        ft-connection-panel-heading="{{ftConnectionPanelHeading}}"
-                        ft-connection-panel-show-delete-button="{{ftConnectionPanelShowDeleteButton}}"
-                        ft-connection-show-details-panel="{{ftConnectionShowDetailsPanel}}"
+                    <!-- Defaults button -->
+                    <ft-labeled-icon-button
+                        id="settingsDefaultsButton"
+                        slot="controls"
+                        icon="undo"
+                        label="Default"
+                        disabled="[[!_canSetDefaultSettings]]"
+                        on-tap="_onSettingsDefaultButtonClicked"
                     >
-                    </ft-connection-panel-settings-editor>
+                    </ft-labeled-icon-button>
 
-                    <ft-connection-list-item-settings-editor
-                        id="connectionListItemSettingsEditor"
-                        name="ft-connection-list-item"
-                        ft-connection-list-item-allow-manual-fetch="{{ftConnectionListItemAllowManualFetch}}"
+                    <!-- Content -->
+                    <div
+                        slot="content"
+                        class="layout horizontal center"
+                        style="margin-top: 12px;"
                     >
-                    </ft-connection-list-item-settings-editor>
+                        <iron-pages
+                            id="configurationEditors"
+                            class="flex layout vertical"
+                            attr-for-selected="name"
+                            selected="[[_selectedConfigurationName]]"
+                        >
+                            <ft-connect-wizard-settings-editor
+                                id="connectWizardSettingsEditor"
+                                name="ft-connect-wizard"
+                                ft-connect-wizard-show-documents-panel="{{ftConnectWizardShowDocumentsPanel}}"
+                            >
+                            </ft-connect-wizard-settings-editor>
 
-                    <ft-document-panel-settings-editor
-                        id="documentPanelSettingsEditor"
-                        name="ft-document-panel"
-                        ft-document-panel-show-heading="{{ftDocumentPanelShowHeading}}"
-                        ft-document-panel-heading="{{ftDocumentPanelHeading}}"
-                        ft-document-panel-show-grid-button="{{ftDocumentPanelShowGridButton}}"
-                        ft-document-panel-show-list-button="{{ftDocumentPanelShowListButton}}"
-                        ft-document-panel-show-preview-button="{{ftDocumentPanelShowPreviewButton}}"
-                        ft-document-panel-show-upload-button="{{ftDocumentPanelShowUploadButton}}"
-                        ft-document-panel-show-download-button="{{ftDocumentPanelShowDownloadButton}}"
-                        ft-document-panel-show-delete-button="{{ftDocumentPanelShowDeleteButton}}"
-                        ft-document-panel-show-document-count="{{ftDocumentPanelShowDocumentCount}}"
-                    >
-                    </ft-document-panel-settings-editor>
+                            <ft-connection-panel-settings-editor
+                                id="connectionPanelSettingsEditor"
+                                name="ft-connection-panel"
+                                ft-connection-panel-show-heading="{{ftConnectionPanelShowHeading}}"
+                                ft-connection-panel-heading="{{ftConnectionPanelHeading}}"
+                                ft-connection-panel-show-delete-button="{{ftConnectionPanelShowDeleteButton}}"
+                                ft-connection-show-details-panel="{{ftConnectionShowDetailsPanel}}"
+                            >
+                            </ft-connection-panel-settings-editor>
 
-                    <ft-source-panel-settings-editor
-                        id="sourcePanelSettingsEditor"
-                        name="ft-source-panel"
-                        ft-source-panel-show-filters="{{ftSourcePanelShowFilters}}"
-                        ft-source-panel-heading="{{ftSourcePanelHeading}}"
-                        ft-source-panel-show-heading="{{ftSourcePanelShowHeading}}"
-                        ft-source-panel-show-search-field="{{ftSourcePanelShowSearchField}}"
-                    >
-                    </ft-source-panel-settings-editor>
+                            <ft-connection-list-item-settings-editor
+                                id="connectionListItemSettingsEditor"
+                                name="ft-connection-list-item"
+                                ft-connection-list-item-allow-manual-fetch="{{ftConnectionListItemAllowManualFetch}}"
+                            >
+                            </ft-connection-list-item-settings-editor>
 
-                    <!--<ft-source-grid-item-settings-editor>-->
-                    <!--</ft-source-grid-item-settings-editor>-->
+                            <ft-document-panel-settings-editor
+                                id="documentPanelSettingsEditor"
+                                name="ft-document-panel"
+                                ft-document-panel-show-heading="{{ftDocumentPanelShowHeading}}"
+                                ft-document-panel-heading="{{ftDocumentPanelHeading}}"
+                                ft-document-panel-show-grid-button="{{ftDocumentPanelShowGridButton}}"
+                                ft-document-panel-show-list-button="{{ftDocumentPanelShowListButton}}"
+                                ft-document-panel-view-as-initial="{{ftDocumentPanelViewAsInitial}}"
+                                ft-document-panel-show-preview-button="{{ftDocumentPanelShowPreviewButton}}"
+                                ft-document-panel-show-upload-button="{{ftDocumentPanelShowUploadButton}}"
+                                ft-document-panel-show-download-button="{{ftDocumentPanelShowDownloadButton}}"
+                                ft-document-panel-show-delete-button="{{ftDocumentPanelShowDeleteButton}}"
+                                ft-document-panel-show-document-count="{{ftDocumentPanelShowDocumentCount}}"
+                            >
+                            </ft-document-panel-settings-editor>
 
-                </iron-pages>
+                            <ft-source-panel-settings-editor
+                                id="sourcePanelSettingsEditor"
+                                name="ft-source-panel"
+                                ft-source-panel-show-filters="{{ftSourcePanelShowFilters}}"
+                                ft-source-panel-heading="{{ftSourcePanelHeading}}"
+                                ft-source-panel-show-heading="{{ftSourcePanelShowHeading}}"
+                                ft-source-panel-show-search-field="{{ftSourcePanelShowSearchField}}"
+                            >
+                            </ft-source-panel-settings-editor>
 
+                            <!--<ft-source-grid-item-settings-editor>-->
+                            <!--</ft-source-grid-item-settings-editor>-->
+
+                        </iron-pages>
+
+                    </div>
+                </ft-form-panel>
+
+                <!-- Divider -->
+                <!--<div class="section-divider"></div>-->
+
+                <!-- Styling panel -->
+                <!--<ft-form-panel-->
+                    <!--heading="Styling"-->
+                    <!--class="form-panel"-->
+                    <!--content-shown={{_stylingPanelOpen}}-->
+                <!--&gt;-->
+                    <!--&lt;!&ndash; Summary &ndash;&gt;-->
+                    <!--<div-->
+                        <!--slot="summary"-->
+                        <!--style="font-family:'Roboto', sans-serif; font-size: 9pt; padding-top: 4px; color: #AAA; "-->
+                    <!--&gt;-->
+                        <!--[[_secretsShownText]]-->
+                    <!--</div>-->
+
+                    <!--&lt;!&ndash; Content &ndash;&gt;-->
+                    <!--<div-->
+                        <!--slot="content"-->
+                        <!--class="layout horizontal center"-->
+                        <!--style="margin-top: 12px;"-->
+                    <!--&gt;-->
+                        <!--<ft-styler-->
+                            <!--style="border-right:1px solid black; "-->
+                        <!--&gt;-->
+                        <!--</ft-styler>-->
+                    <!--</div>-->
+                <!--</ft-form-panel>-->
             </div>
-
         </ft-accordion-item>
 
     </template>
@@ -195,10 +297,11 @@ limitations under the License.
                             observer: "_onSelectedConfigurationIndexChanged",
                         },
 
-                    _selectedConfiguration:
+                    selectedConfiguration:
                         {
                             type: Object,
                             value: null,
+                            notify: true,
                         },
 
                     _selectedConfigurationName:
@@ -212,6 +315,24 @@ limitations under the License.
                             type: Boolean,
                             value: true,
                         },
+
+                    _settingsPanelOpen:
+                        {
+                            type: Object,
+                            notify: true,
+                            value: true,
+                        },
+                    _stylingPanelOpen:
+                        {
+                            type: Object,
+                            notify: true,
+                            value: false,
+                        },
+
+                    _canSetDefaultSettings: {
+                        type: Boolean,
+                        value: false
+                    },
                 },
 
             // Startup -------------------------------------------------------------------------------------
@@ -277,6 +398,16 @@ limitations under the License.
                 return null;
             },
 
+            updateSettingsDefaultButtonEnabled: function()
+            {
+                var selectedConfiguration = this.selectedConfiguration;
+                if (!selectedConfiguration)
+                    return;
+                var settingsEditor = selectedConfiguration.settingsEditor;
+                var enableButton = settingsEditor.hasSettings();
+                this._canSetDefaultSettings = enableButton;
+            },
+
             _onSelectedConfigurationIndexChanged: function(to, from)
             {
                 var selectedConfigurationIndex = this._selectedConfigurationIndex;
@@ -288,9 +419,34 @@ limitations under the License.
                 if (configurations.length === 0)
                     return;
                 var selectedConfiguration = configurations[selectedConfigurationIndex];
-                this._selectedConfiguration = selectedConfiguration;
+                this.selectedConfiguration = selectedConfiguration;
 
                 this._selectedConfigurationName = selectedConfiguration.name;
+            },
+
+            _onSettingsDefaultButtonClicked: function(event)
+            {
+                var settingsEditor = this.selectedConfiguration.settingsEditor;
+                settingsEditor.revertToDefaults();
+            },
+
+            _onSourcesButtonTapped: function(event)
+            {
+                var url =
+                    "https://github.com/filethis/" +
+                    this._selectedConfigurationName +
+                    "/blob/master/" +
+                    this._selectedConfigurationName + ".html";
+                this._openUrl(url);
+            },
+
+            _openUrl: function(url)
+            {
+                var win = window.open(url, '_blank');
+                if (win)
+                    win.focus();
+                else
+                    this.$.confirmationDialog.alert("Please allow popups for this site");
             },
 
             // User action event handling --------------------------------------------------------------------------

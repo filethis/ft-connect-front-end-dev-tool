@@ -14,6 +14,7 @@
     "ft-element-demo": "filethis/ft-element-demo#^1.0.14",
     "ft-test-account-manager": "filethis/ft-test-account-manager#^1.0.24",
     "ft-labeled-icon-button": "filethis/ft-labeled-icon-button#^1.0.20",
+    "ft-styler": "filethis/ft-styler#^1.0.11",
     "ft-url-param-behavior": "filethis/ft-url-param-behavior#^1.0.9",
     "iron-a11y-keys": "PolymerElements/iron-a11y-keys#1 - 2",
     "iron-image": "PolymerElements/iron-image#1 - 2",
