@@ -195,15 +195,6 @@ A development tool to assist partners in developing a front-end to FileThis serv
             >
             </ft-labeled-icon-button>
 
-            <!-- Minimal web app button -->
-            <ft-labeled-icon-button
-                style="padding-left:8px; "
-                icon="check-box-outline-blank"
-                label="Minimal"
-                on-tap="_onMinimalButtonTapped"
-            >
-            </ft-labeled-icon-button>
-
             <!-- Divider -->
             <!--<div style="width:25px; height: 70%; border-left: 1px solid #EEE; margin-left: 22px; "-->
             <!--&gt;-->
@@ -686,8 +677,8 @@ A development tool to assist partners in developing a front-end to FileThis serv
                 // TODO: Make auto-enable at startup a preference?
                 this.async(function()
                 {
-                    if (this.canGoLive)
-                        this.live = true;
+                    // if (this.canGoLive)
+                    //     this.live = true;
 
                     if (this.getUrlParam("devel"))
                     {
@@ -750,11 +741,6 @@ A development tool to assist partners in developing a front-end to FileThis serv
                 this._openConnectElementSourcesPage();
             },
 
-            _onMinimalButtonTapped: function(event)
-            {
-                this._openMinimalSite();
-            },
-
             _onInternalSettingsChanged: function(event)
             {
                 this.$.configurationPanel.updateSettingsDefaultButtonEnabled();
@@ -775,12 +761,6 @@ A development tool to assist partners in developing a front-end to FileThis serv
             _openConnectElementSourcesPage: function(event)
             {
                 var url = "https://github.com/filethis/" + this.selectedVariant;
-                this._openUrl(url);
-            },
-
-            _openMinimalSite: function(event)
-            {
-                var url = "https://connect.filethis.com/ft-connect-minimal-site/latest/app/index.html";
                 this._openUrl(url);
             },
 
