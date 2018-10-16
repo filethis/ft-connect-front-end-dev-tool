@@ -8,6 +8,8 @@
     "robots.txt"
   ],
   "extraDependencies": [
+    "bower_components/ace-builds/src-noconflict/mode-html.js",
+    "bower_components/ace-builds/src-noconflict/theme-chrome.js",
     "manifest.json"
   ],
   "lint": {
@@ -16,28 +18,27 @@
     ],
     "ignoreWarnings": [
       "multiple-doc-comments"
+    ],
+    "builds": [
+      {
+        "bundle": false,
+        "js": {
+          "minify": true,
+          "compile": false
+        },
+        "css": {
+          "minify": true
+        },
+        "html": {
+          "minify": true
+        },
+        "excludes": [
+          "/data/"
+        ],
+        "stripComments": "true",
+        "addPushManifest": true,
+        "insertPrefetchLinks": true
+      }
     ]
-  },
-  "builds": [
-    {
-      "name": "app",
-      "bundle": true,
-      "js": {
-        "minify": true,
-        "compile": true
-      },
-      "css": {
-        "minify": true
-      },
-      "html": {
-        "minify":                 false
-      },
-      "excludes": [
-        "/data/"
-      ],
-      "stripComments": "true",
-      "addPushManifest": true,
-      "insertPrefetchLinks": true
-    }
-  ]
+  }
 }
