@@ -262,6 +262,7 @@ A development tool to assist partners in developing a front-end to FileThis serv
                 ft-document-panel-show-delete-button="{{ftDocumentPanelShowDeleteButton}}"
                 ft-document-panel-show-document-count="{{ftDocumentPanelShowDocumentCount}}"
 
+                ft-source-panel-filters="{{ftSourcePanelFilters}}"
                 ft-source-panel-show-filters="{{ftSourcePanelShowFilters}}"
                 ft-source-panel-heading="{{ftSourcePanelHeading}}"
                 ft-source-panel-show-heading="{{ftSourcePanelShowHeading}}"
@@ -371,6 +372,7 @@ A development tool to assist partners in developing a front-end to FileThis serv
                                     ft-document-panel-show-delete-button="{{ftDocumentPanelShowDeleteButton}}"
                                     ft-document-panel-show-document-count="{{ftDocumentPanelShowDocumentCount}}"
 
+                                    ft-source-panel-filters="{{ftSourcePanelFilters}}"
                                     ft-source-panel-show-filters="{{ftSourcePanelShowFilters}}"
                                     ft-source-panel-heading="{{ftSourcePanelHeading}}"
                                     ft-source-panel-show-heading="{{ftSourcePanelShowHeading}}"
@@ -813,7 +815,7 @@ A development tool to assist partners in developing a front-end to FileThis serv
                 this.live = false;
 
                 var message = this._getErrorMessageFromEvent(event);
-                if (message !== None)
+                if (message)
                     this.$.confirmationDialog.alert(message);
                 else
                     this.handleCaughtError(event.detail);
@@ -823,18 +825,18 @@ A development tool to assist partners in developing a front-end to FileThis serv
             {
                 var detail = event.detail;
                 if (!detail)
-                    return None;
+                    return null;
                 var response = detail.response;
                 if (!response)
-                    return None;
+                    return null;
                 var status = response.status;
                 if (!status)
-                    return None;
+                    return null;
                 if (status === 400)
                     return "The current FileThis user access token has expired.\n\nCreate a new one using the fixture panel on the left.";
                 var message = response.message;
                 if (!message)
-                    return None;
+                    return null;
                 return message;
             },
 
