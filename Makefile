@@ -1,5 +1,6 @@
 # Project configuration
 NAME=ft-connect-front-end-sdk-tool
+SRC_DIR=src/
 VERSION=1.1.3
 LOCAL_PORT=3456
 GITHUB_USER=filethis
@@ -15,6 +16,6 @@ AWS_VAULT_PROFILE=filethis
 include project-application.make
 
 # Override the default. Can't use BrowserSync on this app. Makes node.js throw up.
-.PHONY: serve
-serve: project-serve-python  ## Shortcut for project-serve-python
-	@echo Done;
+#.PHONY: serve
+#serve: project-serve-python  ## Shortcut for project-serve-python
+#	@echo Done;
