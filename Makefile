@@ -1,7 +1,7 @@
 # Project configuration
 NAME=ft-connect-front-end-sdk-tool
 SRC_DIR=src/
-VERSION=1.1.6
+VERSION=1.1.7
 LOCAL_PORT=3456
 GITHUB_USER=filethis
 GITHUB_USER_ABBREV=ft
