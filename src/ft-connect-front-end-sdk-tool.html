@@ -34,6 +34,7 @@ limitations under the License.
 <link rel="import" href="../bower_components/paper-item/paper-item.html">
 <link rel="import" href="../bower_components/paper-listbox/paper-listbox.html">
 <link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/shadycss/apply-shim.html">
 <link rel="import" href="manager-panel.html">
 <link rel="import" href="configuration-panel.html">
 
@@ -66,7 +67,7 @@ A development tool to assist partners in developing a front-end to FileThis serv
             }
 
             /* Custom Styling */
-            :root
+            :host > *
             {
                 --ft-source-panel: {
                     background-color: white;
