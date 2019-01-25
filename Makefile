@@ -17,5 +17,5 @@ include project-application.make
 
 # Override the default. Can't use BrowserSync on this app. Makes node.js throw up.
 #.PHONY: serve
-#serve: project-serve-python  ## Shortcut for project-serve-python
+#serve: source-serve-python  ## Shortcut for source-serve-python
 #	@echo Done;
